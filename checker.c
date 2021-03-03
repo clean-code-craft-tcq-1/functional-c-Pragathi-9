@@ -35,12 +35,12 @@ int BMS_StateOfHealth (float soh)
  if (sohcheck)
   {
     printf(" State-of-Health of battery is %f, Battery conditions are good as compared to ideal conditions \n", soh );
-	return 0;
+	return 1;
   }
   else
   {
     printf (" State-of-Health of battery is %f, Battery conditions are poor and cannot be used for the application \n", soh);
-	return 1;
+	return 0;
   } 
 }
 
