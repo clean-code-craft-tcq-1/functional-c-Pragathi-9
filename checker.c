@@ -30,7 +30,8 @@ int StateOfHealth_check (float currentsoh)
 int BMS_StateOfHealth (float soh)
 {
  
- if (StateOfHealth_check(soh))
+ int sohcheck = StateOfHealth_check(soh);
+ if (sohcheck)
   {
     printf(" State-of-Health of battery is %f, Battery conditions are good as compared to ideal conditions \n", soh );
 	return 0;
@@ -51,7 +52,8 @@ int BMS_StateOfHealth (float soh)
  *********************************************************************************/
 int BMS_ChargeRateCheck(float charge_rate)
 {
-	 if(charge_rate>MAXCHARGERATE)
+	int chargerate_check=(charge_rate>MAXCHARGERATE);
+	 if(chargerate_check)
 	   {
 		printf("Charge Rate is %f and is out of range!\n", charge_rate);
 		return 0;
@@ -70,7 +72,8 @@ int BMS_ChargeRateCheck(float charge_rate)
  
 int BMS_StateOfCharge(float soc)
 {
-  if ((soc < MINSOC) || (soc > MAXSOC))
+  int soc_check= ((soc < MINSOC) || (soc > MAXSOC));
+  if (soc_check)
   {
      printf("State of Charge is %f percent, and is out of range!\n", soc);
     /* if (soc >= MAXSOC)
@@ -89,16 +92,15 @@ int BMS_StateOfCharge(float soc)
  
 int BMS_TemperatureCheck(float temperature_deg)
 {
-  if((MINTEMP < temperature_deg) || (temperature_deg < MAXTEMP))
+  int temperature_check= ((MINTEMP < temperature_deg) || (temperature_deg < MAXTEMP));
+  if(temperature_check)
   {
     printf(" The current BMS temperature is %f, and the conditions are ideal for charging the battery. \n", temperature_deg);
     return 1;
   } 
-  else 
-  {
-    printf("Temperature is %f and is out of range!\n", temperature_deg);
-	return 0;
-  }
+  printf("Temperature is %f and is out of range!\n", temperature_deg);
+  return 0;
+  
 }
 
 
@@ -111,12 +113,13 @@ int BMS_TemperatureCheck(float temperature_deg)
  
 int batteryIsOk(float StateofHealth, float ChargeRate, float stateofcharge, float temperature) 
 {
-  int socstatus, sohstatus, temperaturecheck, chargeratecheck;
+  int socstatus, sohstatus, temperaturecheck, chargeratecheck,status;
      sohstatus = BMS_StateOfHealth(StateofHealth);
      socstatus = BMS_StateOfCharge(stateofcharge);
      chargeratecheck = BMS_ChargeRateCheck(ChargeRate);
      temperaturecheck = BMS_TemperatureCheck(temperature);
-     return (socstatus || sohstatus || temperaturecheck || chargeratecheck);
+     status= (socstatus || sohstatus || temperaturecheck || chargeratecheck);
+     return (status);
 }
 
 int batteryIsOk(float StateofHealth, float ChargeRate, float stateofcharge, float temperature);
