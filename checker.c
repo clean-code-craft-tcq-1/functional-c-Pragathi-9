@@ -133,5 +133,5 @@ int batteryIsOk(float StateofHealth, float ChargeRate, float stateofcharge, floa
 int main() {
   
   assert(batteryIsOk(0.7, 0.4, 70, 25));
-  assert(batteryIsOk(0.4,0,85,50));
+  assert(!batteryIsOk(0.4,0,85,50));
 }
