@@ -20,7 +20,7 @@
  * input: Current SOH value
  * returns: Check if the value is greater than the threshold
  *********************************************************************************/
-bool StateOfHealth_check (float currentsoh)
+int StateOfHealth_check (float currentsoh)
 {
   return (currentsoh > 0.5 ? 1:0);
 }
@@ -28,7 +28,7 @@ bool StateOfHealth_check (float currentsoh)
 /*************************************************************************************************
  * Process: Display the State of Health of the battery currently as compared to ideal conditions
  ************************************************************************************************/
-bool BMS_StateOfHealth (float soh)
+int BMS_StateOfHealth (float soh)
 {
  
  int sohcheck = StateOfHealth_check(soh);
@@ -51,7 +51,7 @@ bool BMS_StateOfHealth (float soh)
  * input: Current charge rate in decimal (percentage converted to floating value)
  * returns: Check if the charge rate is out of boundary conditions
  *********************************************************************************/
-bool BMS_ChargeRateCheck(float charge_rate)
+int BMS_ChargeRateCheck(float charge_rate)
 {
 	int chargerate_check=(charge_rate>MAXCHARGERATE);
 	 if(chargerate_check)
@@ -71,7 +71,7 @@ bool BMS_ChargeRateCheck(float charge_rate)
  * returns: Check if the SOC is out of boundary conditions
  *********************************************************************************/
  
-bool BMS_StateOfCharge(float soc)
+int BMS_StateOfCharge(float soc)
 {
   int soc_check= ((soc < MINSOC) || (soc > MAXSOC));
   if (soc_check)
@@ -91,7 +91,7 @@ bool BMS_StateOfCharge(float soc)
  * returns: Check if the Temperature is out of boundary conditions
  *********************************************************************************/
  
-bool BMS_TemperatureCheck(float temperature_deg)
+int BMS_TemperatureCheck(float temperature_deg)
 {
   int temperature_check= ((MINTEMP < temperature_deg) || (temperature_deg < MAXTEMP));
   if(temperature_check)
@@ -113,9 +113,9 @@ bool BMS_TemperatureCheck(float temperature_deg)
  * returns: True is the factors meet the requirement
  *********************************************************************************/
  
-bool batteryIsOk(float StateofHealth, float ChargeRate, float stateofcharge, float temperature) 
+int batteryIsOk(float StateofHealth, float ChargeRate, float stateofcharge, float temperature) 
 {
-  bool socstatus, sohstatus, temperaturecheck, chargeratecheck,status;
+  int socstatus, sohstatus, temperaturecheck, chargeratecheck,status;
      sohstatus = BMS_StateOfHealth(StateofHealth);
      socstatus = BMS_StateOfCharge(stateofcharge);
      chargeratecheck = BMS_ChargeRateCheck(ChargeRate);
@@ -124,7 +124,7 @@ bool batteryIsOk(float StateofHealth, float ChargeRate, float stateofcharge, flo
      return (status);
 }
 
-bool batteryIsOk(float StateofHealth, float ChargeRate, float stateofcharge, float temperature);
+int batteryIsOk(float StateofHealth, float ChargeRate, float stateofcharge, float temperature);
 /********************************************************************************
  * Process: Main function that checks all possible test scenarios to check the BMS plausibility
  *********************************************************************************/
