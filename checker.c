@@ -115,12 +115,13 @@ int BMS_TemperatureCheck(float temperature_deg)
  
 int batteryIsOk(float StateofHealth, float ChargeRate, float stateofcharge, float temperature) 
 {
-  int socstatus, sohstatus, temperaturecheck, chargeratecheck,status;
+  bool socstatus, sohstatus, temperaturecheck, chargeratecheck,status;
      sohstatus = BMS_StateOfHealth(StateofHealth);
      socstatus = BMS_StateOfCharge(stateofcharge);
      chargeratecheck = BMS_ChargeRateCheck(ChargeRate);
      temperaturecheck = BMS_TemperatureCheck(temperature);
-      return 0;
+     status= (sohstatus & sohstatus & chargeratecheck & temperaturecheck);
+     return (status);
 }
 
 int batteryIsOk(float StateofHealth, float ChargeRate, float stateofcharge, float temperature);
