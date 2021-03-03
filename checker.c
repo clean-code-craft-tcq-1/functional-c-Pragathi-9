@@ -93,7 +93,7 @@ int BMS_StateOfCharge(float soc)
  
 int BMS_TemperatureCheck(float temperature_deg)
 {
-  int temperature_check= ((MINTEMP < temperature_deg) || (temperature_deg < MAXTEMP));
+  int temperature_check= ((temperature_deg < MINTEMP) || (temperature_deg > MAXTEMP));
   if(temperature_check)
   {
    printf("Temperature is %f and is out of range!\n", temperature_deg);
