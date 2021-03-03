@@ -12,6 +12,7 @@
 #define MINTEMP 0
 #define MAXSOC 80
 #define MINSOC 20
+
 /********************************************************************************
  * A function that gives the State-of -Health status of a battery management system.
  * if the current SOH rating us below the threshold 0.5%, then the battery is unacceptable.
@@ -118,10 +119,14 @@ int batteryIsOk(float StateofHealth, float ChargeRate, float stateofcharge, floa
      socstatus = BMS_StateOfCharge(stateofcharge);
      chargeratecheck = BMS_ChargeRateCheck(ChargeRate);
      temperaturecheck = BMS_TemperatureCheck(temperature);
-     status_degsoc= (socstatus || temperaturecheck);
-     status_chargesoh=(sohstatus || chargeratecheck);
-     status= (status_degsoc || status_chargesoh);
-     return (status);
+     status_degsoc= (socstatus && temperaturecheck);
+     status_chargesoh=(sohstatus && chargeratecheck);
+     status= (status_degsoc && status_chargesoh);
+     if (status)
+     {
+	return 1;
+     }
+     return 0;
 }
 
 int batteryIsOk(float StateofHealth, float ChargeRate, float stateofcharge, float temperature);
