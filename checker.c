@@ -112,7 +112,7 @@ int BMS_TemperatureCheck(float temperature_deg)
 int batteryIsOk(float StateofHealth, float ChargeRate, float stateofcharge, float temperature) 
 {
   
- return (BMS_StateOfHealth(StateofHealth) || BMS_ChargeRateCheck(ChargeRate) || BMS_StateOfCharge(stateofcharge)|| BMS_TemperatureCheck(temperature));
+ return (BMS_StateOfHealth(StateofHealth) || BMS_StateOfCharge(stateofcharge) || BMS_ChargeRateCheck(ChargeRate) || BMS_TemperatureCheck(temperature));
   
 }
 
