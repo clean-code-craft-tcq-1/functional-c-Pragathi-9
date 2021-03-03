@@ -104,6 +104,10 @@ int BMS_TemperatureCheck(float temperature_deg)
   
 }
 
+int BMS_factorcheck(int)
+{
+  return (status>0)
+}
 
 /********************************************************************************
  * A function that gives overall status of a BAttery management system
@@ -119,14 +123,10 @@ int batteryIsOk(float StateofHealth, float ChargeRate, float stateofcharge, floa
      socstatus = BMS_StateOfCharge(stateofcharge);
      chargeratecheck = BMS_ChargeRateCheck(ChargeRate);
      temperaturecheck = BMS_TemperatureCheck(temperature);
-     status_degsoc= (socstatus && temperaturecheck);
+     status (socstatus && temperaturecheck);
      status_chargesoh=(sohstatus && chargeratecheck);
      status= (status_degsoc && status_chargesoh);
-     if (status)
-     {
-	return 1;
-     }
-     return 0;
+     BMS_factorcheck(status);
 }
 
 int batteryIsOk(float StateofHealth, float ChargeRate, float stateofcharge, float temperature);
