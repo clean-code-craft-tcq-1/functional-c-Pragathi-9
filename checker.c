@@ -70,12 +70,12 @@ int BMS_ChargeRateCheck(float charge_rate)
  
 int BMS_StateOfCharge(float soc)
 {
-  if (soc < MINSOC || soc > MAXSOC)
+  if ((soc < MINSOC) || (soc > MAXSOC))
   {
      printf("State of Charge out of range!\n");
 	 return 0;
      if (soc >= MAXSOC)
-       printf(" Charging is being carried out outside/public stations, avoid charging above 80% to reduce the losses. \n");
+       printf(" Charging is being carried out outside/public stations, avoid charging above 80 percent to reduce the losses. \n");
   }
   return 1;
 }
@@ -89,10 +89,9 @@ int BMS_StateOfCharge(float soc)
  
 int BMS_TemperatureCheck(float temperature_deg)
 {
-  if(MINTEMP <temperature_deg <MAXTEMP)
+  if((MINTEMP <temperature_deg) || (temperature_deg < MAXTEMP))
   {
-    
-	printf(" The temperature conditions are ideal for charging the battery. \n");
+    printf(" The temperature conditions are ideal for charging the battery. \n");
     return 1;
   } 
   else 
@@ -110,13 +109,14 @@ int BMS_TemperatureCheck(float temperature_deg)
  * returns: True is the factors meet the requirement
  *********************************************************************************/
  
-int batteryIsOk(float StateofHealth, , float ChargeRate, float stateofcharge, float temperature) 
+int batteryIsOk(float StateofHealth, float ChargeRate, float stateofcharge, float temperature) 
 {
   
  return (BMS_StateOfHealth(StateofHealth) || BMS_ChargeRateCheck(ChargeRate) || BMS_StateOfCharge(stateofcharge)|| BMS_TemperatureCheck(temperature));
   
 }
 
+int batteryIsOk(float StateofHealth, float ChargeRate, float stateofcharge, float temperature);
 /********************************************************************************
  * Process: Main function that checks all possible test scenarios to check the BMS plausibility
  *********************************************************************************/
