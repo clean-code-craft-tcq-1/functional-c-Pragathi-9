@@ -13,6 +13,12 @@
 #define MAXSOC 80
 #define MINSOC 20
 
+/****************************************************************************
+Function declaration
+/***************************************************************************/
+int batteryIsOk(float StateofHealth, float ChargeRate, float stateofcharge, float temperature);
+
+
 /********************************************************************************
  * A function that gives the State-of -Health status of a battery management system.
  * if the current SOH rating us below the threshold 0.5%, then the battery is unacceptable.
@@ -67,18 +73,23 @@ int BMS_ChargeRateCheck(float charge_rate)
  * A function that gives State-of-Charge parameter check of a Battery management system.
  * if the current SOC is outside the boundary conditions, then the battery is unacceptable.
  * if the SOC exceeds the 80% threshold, that reduces the life span of the battery, and losses are incurred
- * input: SOC in decimal (percentage converted to decimal)
+ * Battery is charged above 80% only in outstation charging system.
+ * input: SOC in percentage
  * returns: Check if the SOC is out of boundary conditions
  *********************************************************************************/
  
 int BMS_StateOfCharge(float soc)
 {
   int soc_check= ((soc < MINSOC) || (soc > MAXSOC));
+  int soc_public= (soc >= MAXSOC);
+	
+  if (soc_public)
+  {
+    printf(" Charging is being carried out outside/public stations, avoid charging above 80 percent to reduce the losses. \n");
+  }
   if (soc_check)
   {
      printf("State of Charge is %f percent, and is out of range!\n", soc);
-    /* if (soc >= MAXSOC)
-     { printf(" Charging is being carried out outside/public stations, avoid charging above 80 percent to reduce the losses. \n");}*/
      return 0;
   }
   return 1;
@@ -105,10 +116,23 @@ int BMS_TemperatureCheck(float temperature_deg)
   
 }
 
-
+/********************************************************************************
+ * Process: Display the battery condition after all the factors are considered
+ *********************************************************************************/
+void BMS_DisplayCondition(int condition)
+{
+  if (condition)
+  {
+    printf(" The Battery management system is in good condition considering the above factors \n");
+  }
+  else
+  {
+   printf(" The Battery management system is in bad condition considering the above factors \n");
+  }
+}
 
 /********************************************************************************
- * A function that gives overall status of a BAttery management system
+ * A function that gives overall status of a Battery management system
  * Factors such as: Charging Temperature,Charge rate, SoH, SoC are considered to check if the BMS is good to function.
  * input: Fators to check the plausibility of BMS
  * returns: True is the factors meet the requirement
@@ -122,10 +146,12 @@ int batteryIsOk(float StateofHealth, float ChargeRate, float stateofcharge, floa
      chargeratecheck = BMS_ChargeRateCheck(ChargeRate);
      temperaturecheck = BMS_TemperatureCheck(temperature);
      status= (sohstatus & sohstatus & chargeratecheck & temperaturecheck);
+     BMS_DisplayCondition(status);
      return (status);
 }
 
-int batteryIsOk(float StateofHealth, float ChargeRate, float stateofcharge, float temperature);
+
+
 /********************************************************************************
  * Process: Main function that checks all possible test scenarios to check the BMS plausibility
  *********************************************************************************/
