@@ -121,7 +121,7 @@ bool batteryIsOk(float StateofHealth, float ChargeRate, float stateofcharge, flo
      socstatus = (bool)BMS_StateOfCharge(stateofcharge);
      chargeratecheck = (bool)BMS_ChargeRateCheck(ChargeRate);
      temperaturecheck = (bool)BMS_TemperatureCheck(temperature);
-     status= (sohstatus & sohstatus & chargeratecheck & temperaturecheck);
+     status= (sohstatus && sohstatus && chargeratecheck && temperaturecheck);
      return (status);
 }
 
