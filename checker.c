@@ -96,11 +96,12 @@ int BMS_TemperatureCheck(float temperature_deg)
   int temperature_check= ((MINTEMP < temperature_deg) || (temperature_deg < MAXTEMP));
   if(temperature_check)
   {
-    printf(" The current BMS temperature is %f, and the conditions are ideal for charging the battery. \n", temperature_deg);
-    return 1;
+   printf("Temperature is %f and is out of range!\n", temperature_deg);
+    return 0;
   } 
-  printf("Temperature is %f and is out of range!\n", temperature_deg);
-  return 0;
+  
+  printf(" The current BMS temperature is %f, and the conditions are ideal for charging the battery. \n", temperature_deg);
+  return 1;
   
 }
 
@@ -131,6 +132,6 @@ bool batteryIsOk(float StateofHealth, float ChargeRate, float stateofcharge, flo
 
 int main() {
   
-  assert(batteryIsOk(0.7, 0.8, 70, 25));
+  assert(batteryIsOk(0.7, 0.4, 70, 25));
   assert(batteryIsOk(0.4,0,85,50));
 }
