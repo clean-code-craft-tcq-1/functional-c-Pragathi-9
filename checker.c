@@ -4,7 +4,7 @@
 
 #include <stdio.h>
 #include <assert.h>	
-
+#include <stdbool.h>
 
 
 #define MAXCHARGERATE 0.5
