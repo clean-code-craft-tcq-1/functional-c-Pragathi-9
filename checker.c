@@ -73,8 +73,8 @@ int BMS_StateOfCharge(float soc)
   if ((soc < MINSOC) || (soc > MAXSOC))
   {
      printf("State of Charge is %f percent, and is out of range!\n", soc);
-     if (soc >= MAXSOC)
-     { printf(" Charging is being carried out outside/public stations, avoid charging above 80 percent to reduce the losses. \n");}
+    /* if (soc >= MAXSOC)
+     { printf(" Charging is being carried out outside/public stations, avoid charging above 80 percent to reduce the losses. \n");}*/
      return 0;
   }
   return 1;
