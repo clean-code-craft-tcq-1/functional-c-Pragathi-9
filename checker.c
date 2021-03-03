@@ -32,12 +32,12 @@ int BMS_StateOfHealth (float soh)
  
  if (StateOfHealth_check(soh))
   {
-    printf("Battery conditions are good as compared to ideal conditions \n");
+    printf(" State-of-Health of battery is %f, Battery conditions are good as compared to ideal conditions \n", soh );
 	return 0;
   }
   else
   {
-    printf ("Battery conditions are are poor and cannot be used for the application \n");
+    printf (" State-of-Health of battery is %f, Battery conditions are poor and cannot be used for the application \n", soh);
 	return 1;
   } 
 }
@@ -53,10 +53,10 @@ int BMS_ChargeRateCheck(float charge_rate)
 {
 	 if(charge_rate>MAXCHARGERATE)
 	   {
-		printf("Charge Rate out of range!\n");
+		printf("Charge Rate is %f and is out of range!\n", charge_rate);
 		return 0;
 	   }
-	   
+	printf("Charge Rate is %f within the maximum threshold\n", charge_rate);  
 	return 1;
 }
 
@@ -72,10 +72,10 @@ int BMS_StateOfCharge(float soc)
 {
   if ((soc < MINSOC) || (soc > MAXSOC))
   {
-     printf("State of Charge out of range!\n");
-	 return 0;
+     printf("State of Charge is %f percent, and is out of range!\n", soc);
      if (soc >= MAXSOC)
-       printf(" Charging is being carried out outside/public stations, avoid charging above 80 percent to reduce the losses. \n");
+     { printf(" Charging is being carried out outside/public stations, avoid charging above 80 percent to reduce the losses. \n");}
+     return 0;
   }
   return 1;
 }
@@ -89,14 +89,14 @@ int BMS_StateOfCharge(float soc)
  
 int BMS_TemperatureCheck(float temperature_deg)
 {
-  if((MINTEMP <temperature_deg) || (temperature_deg < MAXTEMP))
+  if((MINTEMP < temperature_deg) || (temperature_deg < MAXTEMP))
   {
-    printf(" The temperature conditions are ideal for charging the battery. \n");
+    printf(" The current BMS temperature is %f, and the conditions are ideal for charging the battery. \n", temperature_deg);
     return 1;
   } 
   else 
   {
-    printf("Temperature out of range!\n");
+    printf("Temperature is %f and is out of range!\n", temperature_deg);
 	return 0;
   }
 }
