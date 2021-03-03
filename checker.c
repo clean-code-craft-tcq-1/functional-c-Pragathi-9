@@ -27,10 +27,10 @@ int StateOfHealth_check (float currentsoh)
 /*************************************************************************************************
  * Process: Display the State of Health of the battery currently as compared to ideal conditions
  ************************************************************************************************/
-int BMS_StateOfHealth (float)
+int BMS_StateOfHealth (float soh)
 {
  
- if (StateOfHealth_check(float))
+ if (StateOfHealth_check(soh))
   {
     printf("Battery conditions are good as compared to ideal conditions \n");
 	return 0;
@@ -49,9 +49,9 @@ int BMS_StateOfHealth (float)
  * input: Current charge rate in decimal (percentage converted to floating value)
  * returns: Check if the charge rate is out of boundary conditions
  *********************************************************************************/
-int BMS_ChargeRateCheck(float)
+int BMS_ChargeRateCheck(float charge_rate)
 {
-	 if(chargerate>MAXCHARGERATE)
+	 if(charge_rate>MAXCHARGERATE)
 	   {
 		printf("Charge Rate out of range!\n");
 		return 0;
@@ -68,13 +68,13 @@ int BMS_ChargeRateCheck(float)
  * returns: Check if the SOC is out of boundary conditions
  *********************************************************************************/
  
-int BMS_StateOfCharge(float)
+int BMS_StateOfCharge(float soc)
 {
-  if (stateofcharge < MINSOC || stateofcharge > MAXSOC)
+  if (soc < MINSOC || soc > MAXSOC)
   {
      printf("State of Charge out of range!\n");
 	 return 0;
-     if (stateofcharge >= MAXSOC)
+     if (soc >= MAXSOC)
        printf(" Charging is being carried out outside/public stations, avoid charging above 80% to reduce the losses. \n");
   }
   return 1;
@@ -87,9 +87,9 @@ int BMS_StateOfCharge(float)
  * returns: Check if the Temperature is out of boundary conditions
  *********************************************************************************/
  
-int BMS_TemperatureCheck(float)
+int BMS_TemperatureCheck(float temperature_deg)
 {
-  if(MINTEMP <temperature <MAXTEMP)
+  if(MINTEMP <temperature_deg <MAXTEMP)
   {
     
 	printf(" The temperature conditions are ideal for charging the battery. \n");
