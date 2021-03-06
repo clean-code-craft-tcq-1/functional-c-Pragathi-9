@@ -18,7 +18,6 @@ Function declaration
 /***************************************************************************/
 int batteryIsOk(float StateofHealth, float ChargeRate, float stateofcharge, float temperature);
 
-
 /********************************************************************************
  * A function that gives the State-of -Health status of a battery management system.
  * if the current SOH rating us below the threshold 0.5%, then the battery is unacceptable.
@@ -163,3 +162,4 @@ int main() {
   assert(batteryIsOk(0.7, 0.4, 70, 25));
   assert(!batteryIsOk(0.4,0,85,50));
 }
+
