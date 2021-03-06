@@ -8,10 +8,10 @@
 
 
 #define MAXCHARGERATE 0.5
-#define MAXTEMP 45
+#define MAXTEMP 45.0
 #define MINTEMP 0
-#define MAXSOC 80
-#define MINSOC 20
+#define MAXSOC 80.0
+#define MINSOC 20.0
 
 /****************************************************************************
 Function declaration
@@ -68,7 +68,15 @@ int BMS_ChargeRateCheck(float charge_rate)
 	printf("Charge Rate is %f within the maximum threshold\n", charge_rate);  
 	return 1;
 }
-
+/********************************************************************************
+ * A common function that checks the range of parameters.
+ * input: parameter, aximum and minimum range to be checked
+ * returns: Check if the parameter is out of the given maximum and minimum range
+ *********************************************************************************/
+bool BMS_RangeCheck(float parameter, float maxrange, float minrange)
+{
+	return((parameter < minrange) || (parameter > maxrange));
+}
 /********************************************************************************
  * A function that gives State-of-Charge parameter check of a Battery management system.
  * if the current SOC is outside the boundary conditions, then the battery is unacceptable.
@@ -80,7 +88,7 @@ int BMS_ChargeRateCheck(float charge_rate)
  
 int BMS_StateOfCharge(float soc)
 {
-  int soc_check= ((soc < MINSOC) || (soc > MAXSOC));
+  bool soc_check=  BMS_RangeCheck(soc,MAXSOC,MINSOC);
   if (soc_check)
   {
      printf("State of Charge is %f percent, and is out of range!\n", soc);
@@ -98,7 +106,7 @@ int BMS_StateOfCharge(float soc)
  
 int BMS_TemperatureCheck(float temperature_deg)
 {
-  int temperature_check= ((temperature_deg < MINTEMP) || (temperature_deg > MAXTEMP));
+  bool temperature_check= BMS_RangeCheck(temperature_deg,MAXTEMP,MINTEMP);
   if(temperature_check)
   {
    printf("Temperature is %f and is out of range!\n", temperature_deg);
