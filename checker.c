@@ -141,9 +141,8 @@ void BMS_DisplayCondition(int condition)
  
 int batteryIsOk(float StateofHealth, float ChargeRate, float stateofcharge, float temperature) 
 {
-  int socstatus, sohstatus, temperaturecheck, chargeratecheck,status;
+  int status;
      status =  (BMS_StateOfHealth(StateofHealth)) & (BMS_StateOfCharge(stateofcharge)) & (BMS_ChargeRateCheck(ChargeRate)) & (BMS_TemperatureCheck(temperature));
-    // status= (sohstatus & sohstatus & chargeratecheck & temperaturecheck);
      BMS_DisplayCondition(status);
      return (status);
 }
