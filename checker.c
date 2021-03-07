@@ -8,16 +8,15 @@
 
 
 #define MAXCHARGERATE 0.5
-#define MAXTEMP 45
+#define MAXTEMP 45.0
 #define MINTEMP 0
-#define MAXSOC 80
-#define MINSOC 20
+#define MAXSOC 80.0
+#define MINSOC 20.0
 
 /****************************************************************************
 Function declaration
 /***************************************************************************/
 int batteryIsOk(float StateofHealth, float ChargeRate, float stateofcharge, float temperature);
-
 
 /********************************************************************************
  * A function that gives the State-of -Health status of a battery management system.
@@ -68,7 +67,15 @@ int BMS_ChargeRateCheck(float charge_rate)
 	printf("Charge Rate is %f within the maximum threshold\n", charge_rate);  
 	return 1;
 }
-
+/********************************************************************************
+ * A common function that checks the range of parameters.
+ * input: parameter, aximum and minimum range to be checked
+ * returns: Check if the parameter is out of the given maximum and minimum range
+ *********************************************************************************/
+bool BMS_RangeCheck(float parameter, float maxrange, float minrange)
+{
+	return((parameter < minrange) || (parameter > maxrange));
+}
 /********************************************************************************
  * A function that gives State-of-Charge parameter check of a Battery management system.
  * if the current SOC is outside the boundary conditions, then the battery is unacceptable.
@@ -80,7 +87,7 @@ int BMS_ChargeRateCheck(float charge_rate)
  
 int BMS_StateOfCharge(float soc)
 {
-  int soc_check= ((soc < MINSOC) || (soc > MAXSOC));
+  bool soc_check=  BMS_RangeCheck(soc,MAXSOC,MINSOC);
   if (soc_check)
   {
      printf("State of Charge is %f percent, and is out of range!\n", soc);
@@ -98,7 +105,7 @@ int BMS_StateOfCharge(float soc)
  
 int BMS_TemperatureCheck(float temperature_deg)
 {
-  int temperature_check= ((temperature_deg < MINTEMP) || (temperature_deg > MAXTEMP));
+  bool temperature_check= BMS_RangeCheck(temperature_deg,MAXTEMP,MINTEMP);
   if(temperature_check)
   {
    printf("Temperature is %f and is out of range!\n", temperature_deg);
@@ -134,12 +141,8 @@ void BMS_DisplayCondition(int condition)
  
 int batteryIsOk(float StateofHealth, float ChargeRate, float stateofcharge, float temperature) 
 {
-  int socstatus, sohstatus, temperaturecheck, chargeratecheck,status;
-     sohstatus =  BMS_StateOfHealth(StateofHealth);
-     socstatus = BMS_StateOfCharge(stateofcharge);
-     chargeratecheck = BMS_ChargeRateCheck(ChargeRate);
-     temperaturecheck = BMS_TemperatureCheck(temperature);
-     status= (sohstatus & sohstatus & chargeratecheck & temperaturecheck);
+  int status;
+     status =  (BMS_StateOfHealth(StateofHealth)) & (BMS_StateOfCharge(stateofcharge)) & (BMS_ChargeRateCheck(ChargeRate)) & (BMS_TemperatureCheck(temperature));
      BMS_DisplayCondition(status);
      return (status);
 }
@@ -154,4 +157,7 @@ int main() {
   
   assert(batteryIsOk(0.7, 0.4, 70, 25));
   assert(!batteryIsOk(0.4,0,85,50));
+  assert(!batteryIsOk(0.6,0.6,50,30));
+  assert(!batteryIsOk(0.7,0.2,50,60));
 }
+
